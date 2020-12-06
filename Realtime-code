@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage ("Pull CODE from GIT") {
+            steps {
+                git credentialsId: 'a87baf5d-f8d2-4a03-9725-c49ab9ce9173', url: 'https://github.com/codepipe/realtime-code-now.git'
+            }
+        }
+        stage ("Build with maven") {
+            steps {
+                bat "mvn package"
+            }
+        }
+        stage ("Deploy to the containers") {
+            steps {
+               deploy adapters: [tomcat8(credentialsId: '35a29f26-60f7-4491-a3ae-d9e21f962580', path: '', url: 'http://34.241.186.60:9090')], contextPath: null, war: '**/*.war'
+            }
+            
+        }
+    }
+}
