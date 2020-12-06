@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+        stage ("run tests") {
+            parallel {
+                stage ("on windows") {
+                    steps {
+                        echo "run"
+                    }
+                }
+                stage ("on linux") {
+                    steps {
+                        echo "run on linux"
+                    }
+                }
+            }
+        }
+        stage ("build") {
+            parallel {
+                stage ("on windows") {
+                    steps {
+                        echo "run ms build"
+                    }
+                }
+                stage ("on linux")  {
+                    steps {
+                        echo "run"
+                    }
+                }
+            }
+        }
+    }
+}
