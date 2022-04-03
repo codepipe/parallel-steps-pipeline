@@ -1,0 +1,36 @@
+pipeline {
+    agent none
+    stages {
+        stage ("master node") {
+            agent { label 'master-1'}
+            steps {
+                sh 'hostname -I'
+            }
+        }
+        stage ("slave1") {
+            agent { label 'slave-1' }
+            steps {
+                sh 'hostname -I'
+            }
+        }
+        stage ("salve2") {
+            agent { label 'slave-2' }
+            steps {
+                sh 'hostname -I'
+            }
+        }
+        stage ("slave3") {
+            agent { label 'slave3-windows' }
+            steps {
+                powershell 'hostname'
+            }
+        }
+        
+    }
+    post {
+        success {
+            echo "master node ip , slave 1 , slave 2  is successfully fetched "
+        }
+    }
+
+}
